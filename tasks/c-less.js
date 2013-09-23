@@ -198,9 +198,6 @@ module.exports = function(grunt) {
         }
       });
 
-    // make sure the version does not have spaces in it
-    options.assetsVersion = lib.trim(options.assetsVersion + '').replace(/\s+/g,'_');
-
     if (!src) {
       grunt.warn('Missing src property.');
       return false;
