@@ -46,6 +46,9 @@ module.exports = function(grunt) {
         separator : grunt.util.linefeed,
         processContent : function (content, filePath) {
           return content;
+        },
+        postProcess : function (content, filePath) {
+          return content;
         }
       });
 
@@ -97,6 +100,8 @@ module.exports = function(grunt) {
       options.banner && results.unshift(options.banner);
 
       var result = results.join(options.separator);
+
+      result = options.postProcess(result, dest);
 
       grunt.file.write(dest, result);
 

@@ -5,7 +5,6 @@ module.exports = function (grunt) {
 
   var gruntTaskUtils = require('../lib/grunt-task-utils.js')(grunt);
 
-
   grunt.registerMultiTask('ez-frontend', 'Easy configuration of tasks to concatenate', function () {
     var me = this;
     var options = me.options({

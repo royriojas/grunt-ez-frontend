@@ -195,6 +195,9 @@ module.exports = function(grunt) {
         linefeed : grunt.util.linefeed,
         processContent : function (content, filePath) {
           return content;
+        },
+        postProcess : function (content, filePath) {
+          return content;
         }
       });
 
@@ -228,6 +231,8 @@ module.exports = function(grunt) {
       }
 
       options.banner && (css = options.banner + css);
+
+      css = options.postProcess(css, dest);
 
       file.write(dest, css);
       done();
