@@ -66,8 +66,10 @@ The **ez-frontend** tasks is a [multi task][types_of_tasks], meaning that grunt 
 
 ### Target Properties
 *   __src__*(required)*: Depending on the type of output to generate this could be: 
-- The LESS file(s) to be compiled. Can be either a string or an array of strings. If more than one LESS file is provided, each LESS file will be compiled individually and then concatenated together. You can mix regular css files with the less files, they will be just added since they don't need to be parsed. or...
-- The JS files to be concatenated and compiled.
+    a. The LESS file(s) to be compiled. Can be either a string or an array of strings. If more than one LESS file is provided, each LESS file will be compiled individually and then concatenated
+    together. You can mix regular css files with the less files, they will be just added since they don't need to be parsed. or...
+
+    b. The JS files to be concatenated and compiled.
 
 *   __dest__*(required)*: The path where the output from the LESS compilation or preprocess should be placed. Must be a string as there can be only one destination. The extension of the file is important as this is used to infer the type of the group. You can also specify a type for the group (either `js` or `css`), see the next property:
 *   __type__*(optional)*: wheter this group is `js` target or a `css` target. If ommited the type for the group will be infered from the extension of the output file.
