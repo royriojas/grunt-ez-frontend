@@ -162,8 +162,10 @@ grunt.initConfig({
       dest: 'dist/main.js',
       options: {
         replacements: [{
-          replace: /\/\/<editor-fold desc="test-region">[\s\S.]*\/\/<\/editor-fold>/, //remove code that is only for testing purposes and which is inside the editor-fold region
-          using: '//CODE FOR TESTING REMOVED' // could be a string or a function that returns a string
+          //remove code that is only for testing purposes and which is inside the editor-fold region
+          replace: /\/\/<editor-fold desc="test-region">[\s\S.]*\/\/<\/editor-fold>/, 
+          // could be a string or a function that returns a string
+          using: '//CODE FOR TESTING REMOVED' 
         }]
       }
     },
