@@ -11,7 +11,7 @@ The previous means that a group like the one below:
 
 ```javascript
 var cssGroup = {
-   src : [path/to/some/less-file.less, path/to/other.less, path/to/a/css.file.css],
+   src : ['path/to/some/less-file.less', 'path/to/other.less', 'path/to/a/css.file.css'],
    dest : 'path/to/some/output/dir/output.css'
 }
 ```
@@ -77,51 +77,122 @@ The **ez-frontend** tasks is a [multi task][types_of_tasks], meaning that grunt 
 ```javascript
 // project configuration
 grunt.initConfig({
-   'ez-frontend' : {
-      options : {
-        banner : bannerContent, // the banner to be added before the output files
-        //assetsVersion : assetsVersion, //if provided the filenames will be modified to use this as part of the file name, just before the extension.
-        processContent : function (content, filePath) { // runs per each file (css, less or js file)
-          //console.log('::::: processContent ::::: ' + filePath);
-          return content;
-        },
-        postProcess : function (content, filePath) { // runs per each output
-          return content;
-        }
-        // these options could be overridden on a target level.
-      },
-      'app-js' : {
-        src : ['main.js', 'views/**/*.js'],
-        dest : 'dist/main.js', 
-        options : {
-            replacements : [{
-               replace : /\/\/<editor-fold desc="test-region">[\s\S.]*\/\/<\/editor-fold>/, //remove code that is only for testing purposes and which is inside the editor-fold region
-               using : '//CODE FOR TESTING REMOVED' // could be a string or a function that returns a string
-      }]
-        }
-      }, 
-      'app-css' :{
-        src : ['main.less', 'other.css'],
-        dest :'dist/main.css',
-        options : {
-           browsers : ['last 2 version', 'ie 8', 'ie 7'], //this option is for the autoprefixer see grunt-autoprefixer for more info visit https://github.com/nDmitry/grunt-autoprefixer
-          postProcess : function (content) { // overrides the specified in the global options for the ez-frontend multitask
-            var regexEmCalc = /\bem-calc\((.*)\)/g;
+  'ez-frontend': {
+    // all the options here could be overriden at a target level
+    options: {
+      
+      // the banner to be added to the top of the output files. 
+      // It will be processed by grunt.template.process
+      // so it could use the same format as the meta.banner property.
+      banner: bannerContent, 
 
-            content = content.replace(regexEmCalc, function (a, b) {
-              var number = parseFloat(b);
-              if (!isNaN(number)) {
-                return lib.format('{0}em', number / 16);
-              }
-              throw new Error("em-calc expects a number!");
-            });
-            
-            return content;
-          }
+      // if provided the filenames will be modified to use this 
+      // as part of the file name, just before the extension.
+      // For example : 
+      // 
+      // instead of 'path/to/some/output.css' it will be 
+      // 'path/to/some/output.{version}.css' where {version} will be
+      // replaced with the assetsVersion given.
+      // 
+      // Same will happen with the minified version in that case:
+      // 
+      // instead of 'path/to/some/output.min.css' it will be 
+      // 'path/to/some/output.{version}.min.css' where {version} will be
+      // replaced with the assetsVersion given.
+      // 
+      // also assets referenced by less files will be moved into a folder
+      // with the version as the name. Please note this behavior could 
+      // be overriden by setting a different rewritePathTemplate option
+      assetsVersion : assetsVersion, 
+      
+      // this controls the format of the rewriten url for the assets
+      // referenced in the less/css files. 
+      // {0} will be replaced by the assetsVersion
+      // {1} will be replaced by the md5 of the referenced url
+      // {2} will be the original name of the asset
+      // Another template could be 
+      //   'assets/{1}_{2}'
+      // In this case we're not using the assetsVersion 
+      rewritePathTemplate : 'assets/{0}/{1}/{2}',
+
+      // runs per each file (css, less or js file)
+      // this hook allows to modify the content of the file being parsed
+      // this will run for preprocess and cLess tasks. 
+      // 
+      // If this function is intended to run only for a particular group (css or js)
+      // It will be better to use the options object of the target 
+      // instead of this global hook.
+      processContent: function(content, filePath) { 
+        return content;
+      },
+      
+      // runs after preprocess or cLess tasks are finished and are about 
+      // to save the output to a disk.
+      // This hook could be used to further modify the output if necessary.
+      // 
+      // If this function is intended to run only for a particular group (css or js)
+      // It will be better to use the options object of the target 
+      // instead of this global hook.
+      postProcess: function(content, filePath) { 
+        return content;
+      }, 
+      
+      // this option is for the autoprefixer see grunt-autoprefixer for more info visit https://github.com/nDmitry/grunt-autoprefixer
+      browsers: ['last 2 version', 'ie 8', 'ie 7'], 
+      
+      // this option will be passed to preprocess task
+      replacements : [{
+        replace : /\[APP_VERSION\]/g,
+        using : function () {
+          return pkg.version;
+        }, {
+          replace : /\[AUTOR]/g,
+          using : 'Roy Riojas'
+        }
+      }]
+    },
+    'app-js': {
+      
+      // This group will generate the files dist/main.js and dist/main.min.js 
+      // also the files will be preprocess to replace some sections
+      // with a comment that will be later be removed by uglify 
+      // in this case the section to be replaced is a block of code only required
+      // for user testing
+      src: ['main.js', 'views/**/*.js'],
+      dest: 'dist/main.js',
+      options: {
+        replacements: [{
+          replace: /\/\/<editor-fold desc="test-region">[\s\S.]*\/\/<\/editor-fold>/, //remove code that is only for testing purposes and which is inside the editor-fold region
+          using: '//CODE FOR TESTING REMOVED' // could be a string or a function that returns a string
+        }]
+      }
+    },
+    'app-css': {
+      // This group will generate the main.css file and will replace
+      // em-calc(number) with the em-value resulting of dividing the number by 16.
+      // This could be used to create custom functions on the css
+      src: ['main.less', 'other.css'],
+      dest: 'dist/main.css',
+      options: {
+        // overrides the specified in the global options for the ez-frontend multitask
+        postProcess: function(content) { 
+          var regexEmCalc = /\bem-calc\((.*)\)/g;
+
+          content = content.replace(regexEmCalc, function(a, b) {
+            var number = parseFloat(b);
+            if (!isNaN(number)) {
+              return lib.format('{0}em', number / 16);
+            }
+            throw new Error("em-calc expects a number!");
+          });
+
+          return content;
         }
       }
     }
+  }
 })
+
 ```
 
 
