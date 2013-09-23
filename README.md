@@ -23,7 +23,7 @@ The previous means that a group like:
 
 ```javascript
 var jsGroup = {
-   src : [path/to/some/js-file.js, path/to/other.js, path/to/a/js.file.js],
+   src : ['path/to/some/js-file.js', 'path/to/other.js', 'path/to/a/js.file.js'],
    dest : 'path/to/some/output/dir/output.js'
 }
 ```
