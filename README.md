@@ -62,6 +62,7 @@ Documentation
 The **ez-frontend** tasks is a [multi task][types_of_tasks], meaning that grunt will automatically iterate over all the targets under this task configuration object
 
 **ez-frontend**
+---------------
 
 ### Target Properties
 *   __src__*(required)*: Depending on the type of output to generate this could be: 
