@@ -47,7 +47,7 @@ module.exports = function(grunt) {
     return IS_LESS_MATCHER.test(path);
   }
 
-  function copyFileToNewLocation (src, destDir, relativePathToFile, version) {
+  function copyFileToNewLocation (src, destDir, relativePathToFile, version, rewritePathTemplate) {
     var dirOfFile = path.dirname(src);
 
     var urlObj = url.parse(relativePathToFile);
@@ -64,7 +64,7 @@ module.exports = function(grunt) {
 
     var fName = format('{0}', path.basename(relativePath));
 
-    var relativeOutputFn = format('assets/{0}{1}__{2}', version ? lib.format('{0}/', version) : '', md5OfResource, fName);
+    var relativeOutputFn = format(rewritePathTemplate, version , md5OfResource, fName);
 
     var newPath = path.normalize(path.join(destDir, relativeOutputFn));
 
@@ -95,6 +95,7 @@ module.exports = function(grunt) {
   function rewriteURLS (ctn, src, destDir, options) {
 
     var version = options.assetsVersion;
+    var rewritePathTemplate = options.rewritePathTemplate;
 
     if (!lib.isNull(ctn)) {
       ctn = ctn.replace(URL_MATCHER, function (match, url) {
@@ -102,7 +103,7 @@ module.exports = function(grunt) {
         var needRewrite = checkIfRelativePath(url);
 
         if (needRewrite) {
-          var pathToFile = copyFileToNewLocation(src, destDir, url, version);
+          var pathToFile = copyFileToNewLocation(src, destDir, url, version, rewritePathTemplate);
 
           var outputPath = format('url({0})', pathToFile);
           verbose.writeln(format('===> This url will be transformed : {0} ==> {1}', url, outputPath));
@@ -193,6 +194,7 @@ module.exports = function(grunt) {
         banner : '',
         dumpLineNumbers: "",
         linefeed : grunt.util.linefeed,
+        rewritePathTemplate : 'assets/{0}/{1}/{2}',
         processContent : function (content, filePath) {
           return content;
         },
