@@ -143,7 +143,7 @@ grunt.initConfig({
       // this option is for the autoprefixer see grunt-autoprefixer for more info visit https://github.com/nDmitry/grunt-autoprefixer
       browsers: ['last 2 version', 'ie 8', 'ie 7'], 
       
-      // this option will be passed to preprocess task
+      // this option will be passed to the preprocess task
       replacements : [{
         replace : /\[APP_VERSION\]/g,
         using : function () {
@@ -179,6 +179,31 @@ grunt.initConfig({
       src: ['main.less', 'other.css'],
       dest: 'dist/main.css',
       options: {
+        userFunctions : {
+          // 
+          // this function is going to be passed to the cLess task, which in turn
+          // will add this function to the tree parser
+          //
+          // Example:
+          //
+          // font-size : em-calc(16px);
+          //
+          // will result in 
+          // 
+          // font-size : 1em /* em-calc output*/;
+          // 
+          // this custom function does the same as the postProcess 
+          // replacement of 'em-calc' does. Only than using a custom less function
+          // 
+          // 
+          'em-calc' : function (less, unit /* is a less parsed value */) {
+            var number = unit.value;
+            if (!isNaN(number)) {
+              return lib.format('{0}em /* em-calc output*/', number / 16);
+            }
+            throw new Error("em-calc expects a number!");
+          }
+        }, 
         // overrides the specified in the global options for the ez-frontend multitask
         postProcess: function(content) { 
           var regexEmCalc = /\bem-calc\((.*)\)/g;
@@ -212,7 +237,12 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 Release History
 ---------------
-*   __04/04/2012 - 0.1.4__: Initial release.
+*   __09/25/2013 - 0.1.6__: 
+    - Added support for userFunctions in less.
+    - Added the current filename being processed for easier debugging of less errors
+    - Added a pre parse callback for less files options.beforeParseLess
+                          
+*   __09/21/2013 - 0.1.4__: Initial release.
 
 License
 -------

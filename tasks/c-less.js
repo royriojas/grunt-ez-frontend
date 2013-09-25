@@ -157,6 +157,10 @@ module.exports = function(grunt) {
 
       var data = file.read(src);
 
+      var beforeParseLess = defaults.beforeParseLess;
+
+      beforeParseLess && (data = beforeParseLess(data, src));
+
       if (isLessFile(src)) {
         verbose.writeln('Parsing ' + src);
         // send data from source file to LESS parser to get CSS
