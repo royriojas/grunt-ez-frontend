@@ -113,7 +113,7 @@ module.exports = function(grunt) {
         return match;
       });
 
-      ctn = options.processContent(ctn, src);
+      options.processContent && (ctn = options.processContent(ctn, src));
     }
 
     return ctn;
@@ -157,7 +157,7 @@ module.exports = function(grunt) {
 
       var data = file.read(src);
 
-      var beforeParseLess = defaults.beforeParseLess;
+      var beforeParseLess = options.beforeParseLess;
 
       beforeParseLess && (data = beforeParseLess(data, src));
 
@@ -221,14 +221,15 @@ module.exports = function(grunt) {
         assetsVersion : "",
         banner : '',
         dumpLineNumbers: "",
+        customImports : [],
         linefeed : grunt.util.linefeed,
-        rewritePathTemplate : 'assets/{0}/{1}/{2}',
-        processContent : function (content, filePath) {
-          return content;
-        },
-        postProcess : function (content, filePath) {
-          return content;
-        }
+        rewritePathTemplate : 'assets/{0}/{1}/{2}'
+//        processContent : function (content, filePath) {
+//          return content;
+//        },
+//        postProcess : function (content, filePath) {
+//          return content;
+//        }
       });
 
     if (!src) {
@@ -242,6 +243,11 @@ module.exports = function(grunt) {
     }
 
     var srcFiles = file.expand(src);
+
+    var customImports = options.customImports;
+    if (customImports) {
+      srcFiles = grunt.file.expand(customImports).concat(srcFiles);
+    }
 
     logVerbose('Less src files = ' + srcFiles.join(', '));
 
@@ -262,7 +268,7 @@ module.exports = function(grunt) {
 
       options.banner && (css = options.banner + css);
 
-      css = options.postProcess(css, dest);
+      options.postProcess && (css = options.postProcess(css, dest));
 
       file.write(dest, css);
       done();
