@@ -119,17 +119,37 @@ module.exports = function(grunt) {
     return ctn;
   }
 
+  var registerCustomFunctionInLess = function(tree, name, fn) {
+    tree.functions[name] = function () {
+      var returnOuput = fn.apply(this, arguments);
+      return {
+        toCSS : function (options) {
+          return returnOutput;
+        }
+      }
+    };
+  }
 
   var lessProcess = function(srcFiles, destDir, options, callback) {
 
     var compileLESSFile = function (src, callback) {
       var defaults = lib.extend(options, {
-        paths : []
+        paths : [],
+        filename: src
       });
 
       defaults.paths.unshift(path.dirname(src));
+      var userFunctions = defaults.userFunctions;
+      if (userFunctions) {
+        var keys = Object.keys(userFunctions);
+        keys.forEach(function (fName) {
+          var fn = userFunctions[fName];
+          registerCustomFunctionInLess(less.tree, fName, fn);
+        });
+      }
 
       var parser = new less.Parser(defaults);
+
 
       var data = file.read(src);
 
