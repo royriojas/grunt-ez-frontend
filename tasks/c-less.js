@@ -121,7 +121,11 @@ module.exports = function(grunt) {
 
   var registerCustomFunctionInLess = function(tree, name, fn) {
     tree.functions[name] = function () {
-      var returnOuput = fn.apply(this, arguments);
+
+      var args = [].slice.call(arguments);
+      args.unshift(less);
+
+      var returnOutput = fn.apply(this, args);
       return {
         toCSS : function (options) {
           return returnOutput;
