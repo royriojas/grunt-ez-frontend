@@ -154,7 +154,6 @@ module.exports = function(grunt) {
 
       var parser = new less.Parser(defaults);
 
-
       var data = file.read(src);
 
       var beforeParseLess = options.beforeParseLess;
@@ -162,6 +161,12 @@ module.exports = function(grunt) {
       beforeParseLess && (data = beforeParseLess(data, src));
 
       if (isLessFile(src)) {
+
+        if (options.customImportData) {
+          // adding the imported data
+          data = options.customImportData + data;
+        }
+
         verbose.writeln('Parsing ' + src);
         // send data from source file to LESS parser to get CSS
         parser.parse(data, function (err, tree) {
@@ -242,12 +247,21 @@ module.exports = function(grunt) {
       return false;
     }
 
-    var srcFiles = file.expand(src);
-
     var customImports = options.customImports;
+
     if (customImports) {
-      srcFiles = grunt.file.expand(customImports).concat(srcFiles);
+      verbose.writeln('reading custom imports');
+      srcFiles = grunt.file.expand(customImports);
+      var importContent = '';
+      srcFiles.forEach(function (file) {
+        importContent += grunt.file.read(file) + grunt.util.linefeed;
+      });
+
+      options.customImportData = importContent;
     }
+
+
+    var srcFiles = file.expand(src);
 
     logVerbose('Less src files = ' + srcFiles.join(', '));
 

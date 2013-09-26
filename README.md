@@ -88,6 +88,58 @@ grunt.initConfig({
       // It will be processed by grunt.template.process
       // so it could use the same format as the meta.banner property.
       banner: bannerContent, 
+      
+      // called before a less file is parsed
+      // it will also receive css files
+      // at this stage, the urls of the files were not modified
+      // (they are modified to copy the referenced assets to a location
+      // relative to the css output file
+      beforeParseLess : function (content, filepath) {
+        // do some operations here...
+        // like generating some less instructions on the fly
+        // that are going to be then transformed to css by the less parser
+        // if the file was a less one
+        return content;
+      },
+      
+      // this imports will be added before the parsed less files
+      // this is handy to add custom imports and mixins that you want 
+      // to have on all your code
+      // Be aware that if you plan to generate several targets 
+      // and they don't share the same common files
+      // this should be better set on the group level 
+      customImports : [ CSS_CODE_DIR + 'common.less', CSS_CODE_DIR + 'font.less' ],
+
+      // Add custom functions to be used as native "less css" functions.
+      // 
+      // The keys of the object will become the name of the "custom functions" 
+      // 
+      // The functions will be added to the less.tree.functions object
+      // 
+      // When called the function will receive the less object as the first parameter
+      // and whatever other values were passed to the function from the less usage
+      //
+      // Example:
+      // 
+      // Using the 'em-calc' function in the less file
+      //
+      // font-size : em-calc(16px);
+      //
+      // will result in 
+      // 
+      // font-size : 1em /* em-calc output*/;
+      //  
+      // 
+      userFunctions : {
+        'em-calc' : function (less, unit /* is a less object that wraps the unit */) {
+          var number = unit.value;
+          if (!isNaN(number)) {
+            return lib.format('{0}em /* em-calc output*/', number / 16);
+          }
+          throw new Error("em-calc expects a number!");
+        }
+      },
+      
 
       // if provided the filenames will be modified to use this 
       // as part of the file name, just before the extension.
@@ -179,31 +231,6 @@ grunt.initConfig({
       src: ['main.less', 'other.css'],
       dest: 'dist/main.css',
       options: {
-        userFunctions : {
-          // 
-          // this function is going to be passed to the cLess task, which in turn
-          // will add this function to the tree parser
-          //
-          // Example:
-          //
-          // font-size : em-calc(16px);
-          //
-          // will result in 
-          // 
-          // font-size : 1em /* em-calc output*/;
-          // 
-          // this custom function does the same as the postProcess 
-          // replacement of 'em-calc' does. Only than using a custom less function
-          // 
-          // 
-          'em-calc' : function (less, unit /* is a less parsed value */) {
-            var number = unit.value;
-            if (!isNaN(number)) {
-              return lib.format('{0}em /* em-calc output*/', number / 16);
-            }
-            throw new Error("em-calc expects a number!");
-          }
-        }, 
         // overrides the specified in the global options for the ez-frontend multitask
         postProcess: function(content) { 
           var regexEmCalc = /\bem-calc\((.*)\)/g;
@@ -237,6 +264,10 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 Release History
 ---------------
+
+*   __09/25/2013 - 0.1.7__: 
+    - Added a customImports option to the cLess task to allow easy import of mixins and common files. options.customImports.
+
 *   __09/25/2013 - 0.1.6__: 
     - Added support for userFunctions in less.
     - Added the current filename being processed for easier debugging of less errors
