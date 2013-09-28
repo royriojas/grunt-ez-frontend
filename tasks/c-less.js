@@ -120,18 +120,26 @@ module.exports = function(grunt) {
   }
 
   var registerCustomFunctionInLess = function(tree, name, fn) {
-    tree.functions[name] = function () {
+    if (!tree.TextOutput) {
+      tree.TextOutput = function (value) {
+          this.value = value;
+      };
+      tree.TextOutput.prototype = {
+          type: "TextOutput",
+          toCSS: function (env) {
+              return this.value;
+          },
+          eval: function () { return this }
+      };  
+    }
 
+    tree.functions[name] = function () {
       var args = [].slice.call(arguments);
       args.unshift(less);
 
       var returnOutput = fn.apply(this, args);
-      return {
-        toCSS : function (options) {
-          return returnOutput;
-        }
-      }
-    };
+      return new tree.TextOutput(returnOutput);
+    };    
   }
 
   var lessProcess = function(srcFiles, destDir, options, callback) {

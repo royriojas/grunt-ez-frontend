@@ -265,6 +265,9 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 Release History
 ---------------
 
+*   __09/27/2013 - 0.1.8__: 
+    - Make custom functions to work when assigned to variables.
+
 *   __09/25/2013 - 0.1.7__: 
     - Added a customImports option to the cLess task to allow easy import of mixins and common files. options.customImports.
 
