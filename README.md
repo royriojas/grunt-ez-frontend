@@ -131,7 +131,7 @@ grunt.initConfig({
       //  
       // 
       userFunctions : {
-        'em-calc' : function (less, unit /* is a less object that wraps the unit */) {
+        'em-calc' : function (unit /* is a less object that wraps the unit */) {
           var number = unit.value;
           if (!isNaN(number)) {
             return lib.format('{0}em /* em-calc output*/', number / 16);
@@ -140,6 +140,9 @@ grunt.initConfig({
         }
       },
       
+      // the this context object for the userFunctions, if not specified or null
+      // the less object will be used
+      userFunctionsThisObj : null,
 
       // if provided the filenames will be modified to use this 
       // as part of the file name, just before the extension.

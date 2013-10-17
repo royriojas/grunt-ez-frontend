@@ -119,7 +119,8 @@ module.exports = function(grunt) {
     return ctn;
   }
 
-  var registerCustomFunctionInLess = function(tree, name, fn) {
+  var registerCustomFunctionInLess = function(less, name, fn, thisObj) {
+    var tree = less.tree;
     if (!tree.TextOutput) {
       tree.TextOutput = function (value) {
           this.value = value;
@@ -134,10 +135,8 @@ module.exports = function(grunt) {
     }
 
     tree.functions[name] = function () {
-      var args = [].slice.call(arguments);
-      args.unshift(less);
-
-      var returnOutput = fn.apply(this, args);
+      // if no thisObj especified use the less object instead
+      var returnOutput = fn.apply(thisObj || less, arguments);
       return new tree.TextOutput(returnOutput);
     };    
   }
@@ -152,11 +151,13 @@ module.exports = function(grunt) {
 
       defaults.paths.unshift(path.dirname(src));
       var userFunctions = defaults.userFunctions;
+      var thisObj = defaults.userFunctionsThisObj;
+
       if (userFunctions) {
         var keys = Object.keys(userFunctions);
         keys.forEach(function (fName) {
           var fn = userFunctions[fName];
-          registerCustomFunctionInLess(less.tree, fName, fn);
+          registerCustomFunctionInLess(less, fName, fn, thisObj);
         });
       }
 
