@@ -268,6 +268,9 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 Release History
 ---------------
 
+*   __10/28/2013 - 0.2.1__: 
+    - Fix issue with new version of Less. Now using fixed semvers for dependencies
+
 *   __09/27/2013 - 0.1.8__: 
     - Make custom functions to work when assigned to variables.
 

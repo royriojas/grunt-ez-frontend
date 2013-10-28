@@ -127,6 +127,9 @@ module.exports = function(grunt) {
       };
       tree.TextOutput.prototype = {
           type: "TextOutput",
+          genCSS: function (env, output) {
+              output.add(this.toCSS(env));
+          },
           toCSS: function (env) {
               return this.value;
           },
