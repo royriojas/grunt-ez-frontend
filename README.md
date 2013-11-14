@@ -287,7 +287,7 @@ Release History
 License
 -------
 
-Copyright (c) 2012 Roy Riojas
+Copyright (c) 2013 Roy Riojas
 This module is based on the grunt-r3m module. Basically it has been rewritten to support the features I needed.
 
 Licensed under the MIT license.
