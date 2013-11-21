@@ -297,6 +297,8 @@ module.exports = function(grunt) {
       options.postProcess && (css = options.postProcess(css, dest));
 
       file.write(dest, css);
+      grunt.log.writeln('File "' + dest + '" created.');
+
       done();
     });
     return true;

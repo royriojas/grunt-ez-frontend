@@ -267,9 +267,11 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 Release History
 ---------------
+*   __10/28/2013 - 0.2.2__: 
+    - Add log message to cLess and preprocess tasks.
 
 *   __10/28/2013 - 0.2.1__: 
-    - Fix issue with new version of Less. Now using fixed semvers for dependencies
+    - Fix issue with new version of Less. Now using fixed semvers for dependencies.
 
 *   __09/27/2013 - 0.1.8__: 
     - Make custom functions to work when assigned to variables.
@@ -279,8 +281,8 @@ Release History
 
 *   __09/25/2013 - 0.1.6__: 
     - Added support for userFunctions in less.
-    - Added the current filename being processed for easier debugging of less errors
-    - Added a pre parse callback for less files options.beforeParseLess
+    - Added the current filename being processed for easier debugging of less errors.
+    - Added a pre parse callback for less files options.beforeParseLess.
                           
 *   __09/21/2013 - 0.1.4__: Initial release.
 

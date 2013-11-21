@@ -112,7 +112,7 @@ module.exports = function(grunt) {
       }
 
       // Otherwise, print a success message.
-      grunt.verbose.writeln('File "' + dest + '" created.');
+      grunt.log.writeln('File "' + dest + '" created.');
       done(true);
       return true;
     });
