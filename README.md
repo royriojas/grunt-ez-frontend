@@ -267,6 +267,9 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 Release History
 ---------------
+*   __12/16/2013 - 0.2.3__:
+    - Expose some utilities as multitasks 'validate-templates', 'compile-templates', 'i18n-from-yml' and 'i18n-to-ez-frontend' also expose the gruntTaskUtil.registerTasks to pass an object with tasks that can be registered with grunt in a DRY way
+
 *   __10/28/2013 - 0.2.2__: 
     - Add log message to cLess and preprocess tasks.
 
