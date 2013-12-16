@@ -267,6 +267,10 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 Release History
 ---------------
+
+*   __12/16/2013 - 0.2.4__:
+    - Renamed fileTemplate property of compile-templates task to template property, also added a property to read the fileTemplate from a file in the filesystem.
+
 *   __12/16/2013 - 0.2.3__:
     - Expose some utilities as multitasks 'validate-templates', 'compile-templates', 'i18n-from-yml' and 'i18n-to-ez-frontend' also expose the gruntTaskUtil.registerTasks to pass an object with tasks that can be registered with grunt in a DRY way
 
