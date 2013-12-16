@@ -268,6 +268,9 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 Release History
 ---------------
 
+*   __12/16/2013 - 0.2.7__:
+    - Bug Fix. Make the i18n-2-ez-frontend task to work as expected
+
 *   __12/16/2013 - 0.2.6__:
     - Added helper functions onBeautified and onVerificationFailed.
 

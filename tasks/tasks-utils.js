@@ -94,11 +94,15 @@ module.exports = function(grunt) {
           var fileName = path.basename(filepath),
             name = 'i18nTask' + count++;
 
-          ezFrontend[name] = {
+          var task =  ezFrontend[name] = {
             src : filepath,
             dest : dest + fileName
           };
+
+          grunt.config.set(['ez-frontend', name], task);
         });
+
+
       }
     }
   };
