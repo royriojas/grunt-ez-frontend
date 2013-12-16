@@ -268,6 +268,9 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 Release History
 ---------------
 
+*   __12/16/2013 - 0.2.5__:
+    - Added bannerFile property to ez-frontend. When especified the banner property is replaced by the contents of the file mentioned by bannerFile
+
 *   __12/16/2013 - 0.2.4__:
     - Renamed fileTemplate property of compile-templates task to template property, also added a property to read the fileTemplate from a file in the filesystem.
 

@@ -9,8 +9,14 @@ module.exports = function (grunt) {
     var me = this;
     var options = me.options({
       banner : '',
+      bannerFile : null,
       assetsVersion : ''
     });
+
+    if (options.bannerFile) {
+      // TODO: make it read the file only once adding a cache object to handle the bannerFilePaths
+      options.banner = grunt.file.read(options.bannerFile);
+    }
 
     //options.banner = grunt.template.process(options.banner);
 
