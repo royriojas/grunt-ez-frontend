@@ -268,6 +268,21 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 Release History
 ---------------
 
+*   __01/10/2014 - 0.2.8__:
+    - Added generic regular expressions replacements to the gruntTaskUtil.beautifier helper object.
+    After beautification the following replacements are made:
+```javascript
+    replacements : [{
+        replace : /!!\s/g, // double bang with one space after
+        using : '!!' // removes the extra space at the end leaving only the double bang.
+      }, {
+        replace : /\(\sfunction/g, // extra space in anonymous functions passed as arguments
+        using : '(function' // removes the extra space
+      }, {
+        replace : /\)\s\)/g,  // closing parenthesis with an space in the middle
+        using : '))' // remove the middle space
+      }]
+```
 *   __12/16/2013 - 0.2.7__:
     - Bug Fix. Make the i18n-2-ez-frontend task to work as expected
 
