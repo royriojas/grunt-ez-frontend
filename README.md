@@ -267,6 +267,8 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 Release History
 ---------------
+*   __01/19/2014 - 0.2.9__:
+    - Bug fix. Banner were ignored in css outputs
 
 *   __01/10/2014 - 0.2.8__:
     - Added generic regular expressions replacements to the gruntTaskUtil.beautifier helper object.
