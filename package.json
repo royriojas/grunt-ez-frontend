@@ -1,7 +1,7 @@
 {
   "name": "grunt-ez-frontend",
   "description": "Easily configure Grunt to concatenate, minimize js files, parse less files, concatenate them with other css files and minimize them using csso and autoprefix",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "homepage": "https://github.com/royriojas/grunt-ez-frontend",
   "author": {
     "name": "Roy Riojas",
@@ -34,7 +34,7 @@
     "grunt-bump": "0.0.13",
     "time-grunt": "~0.2.8",
     "matchdep": "~0.3.0",
-    "grunt-jsbeautifier": "git://github.com/royriojas/grunt-jsbeautifier",
+    "grunt-jsbeautifier": "git://github.com/royriojas/grunt-jsbeautifier"
   },
   "keywords": [
     "less",
