@@ -68,7 +68,10 @@ module.exports = function(grunt) {
 
     var newPath = path.normalize(path.join(destDir, relativeOutputFn));
 
-    file.copy(absolutePathToResource, newPath);
+    file.copy(absolutePathToResource, newPath, {
+      noProcess: ['**/*.{png,gif,jpg,ico,psd,ttf,otf,woff,svg}']
+    });
+
     verbose.writeln(format('===> copied file from {0} to {1}', absolutePathToResource, newPath));
     var outName = relativeOutputFn + lastPart;
     verbose.writeln(format('===> url replaced from {0} to {1}', relativePathToFile, outName));

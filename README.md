@@ -267,6 +267,9 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 Release History
 ---------------
+*   __02/05/2014 - 0.2.10__:
+    - Bug fix. Added Fix to cLess to avoid corrupting font or other binary files while copying them to the assets location. [Read more][grunt_contrib_copy_issue]
+
 *   __01/19/2014 - 0.2.9__:
     - Bug fix. Banner were ignored in css outputs
 
@@ -326,4 +329,6 @@ Copyright (c) 2013 Roy Riojas
 This module is based on the grunt-r3m module. Basically it has been rewritten to support the features I needed.
 
 Licensed under the MIT license.
+
+[grunt_contrib_copy_issue]: http://royriojas.wordpress.com/2014/02/06/grunt-copy-corrupting-binary-files/
 

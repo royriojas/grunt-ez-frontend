@@ -30,8 +30,11 @@
     "request": "~2.27.0"
   },
   "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-jshint": "~0.1.1"
+    "grunt": "~0.4.2",
+    "grunt-bump": "0.0.13",
+    "time-grunt": "~0.2.8",
+    "matchdep": "~0.3.0",
+    "grunt-jsbeautifier": "git://github.com/royriojas/grunt-jsbeautifier",
   },
   "keywords": [
     "less",
