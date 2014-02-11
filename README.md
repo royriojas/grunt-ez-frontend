@@ -267,6 +267,10 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 Release History
 ---------------
+*   __02/10/2014 - 0.2.11__:
+    - Bug fix. Fixed default template to create compiled templates. 
+      The token to be replace was [CONTENT] and it was supposed to be [[CONTENT]].
+
 *   __02/05/2014 - 0.2.10__:
     - Bug fix. Added Fix to cLess to avoid corrupting font or other binary files while copying them to the assets location. [Read more][grunt_contrib_copy_issue]
 
