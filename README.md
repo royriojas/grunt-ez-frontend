@@ -267,7 +267,11 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 Release History
 ---------------
-*   __02/10/2014 - 0.2.11__:
+
+*   __02/10/2014 - 0.2.13__:
+    - Added logs while templates are created.
+
+*   __02/10/2014 - 0.2.12__:
     - Bug fix. Fixed default template to create compiled templates. 
       The token to be replace was [CONTENT] and it was supposed to be [[CONTENT]].
 
