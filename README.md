@@ -268,6 +268,40 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 Release History
 ---------------
 
+*   __02/16/2014 - 0.2.14__:
+    - Added a task to generate `grunt-qunit-istanbul` targets on the fly. It requires you have installed grunt-qunit-instanbul from this [fork][grunt-qunit-istanbul] in order to prevent this [bug][qunit-istanbul-bug]
+
+    **IMPORTANT**: For this task to work, your qunit tests should be located inside folders with different unique names, since the
+    name of the test is inferred from the name of the folder that contain the test. Also add the attribute `data-cover` to the
+    scripts you want to get coverage from. This task will get the list of files where the data-cover attribute was present and
+    create a target for `grunt-qunit-istanbul`
+
+    The task could be used by adding the following task configuration in your grunt config
+
+    ````
+    'test-targets-generator': {
+      options: {
+        '--web-security': 'no',
+        coverage: {
+          instrumentedFiles: 'temp/',
+          reportFolder: 'report/', //where to store the reports. A folder with the name of the target will be created inside
+          linesThresholdPct: 85
+        }
+      },
+      all: {
+        files: [ {
+          src: [ 'tests/**/*.html' ],
+          expand: true
+        } ]
+      }
+    }
+    ````
+    Then simply you can type this in your command line to execute the qunit targets created.
+
+    ````
+    grunt test-targets-generator qunit
+    ````
+
 *   __02/10/2014 - 0.2.13__:
     - Added logs while templates are created.
 
@@ -339,4 +373,5 @@ This module is based on the grunt-r3m module. Basically it has been rewritten to
 Licensed under the MIT license.
 
 [grunt_contrib_copy_issue]: http://royriojas.wordpress.com/2014/02/06/grunt-copy-corrupting-binary-files/
-
+[grunt-contrib-istanbul]: http://github.com/royriojas/grunt-qunit-istanbul
+[qunit-istanbul-bug]:https://github.com/asciidisco/grunt-qunit-istanbul/issues/10
