@@ -64,6 +64,13 @@ module.exports = function (grunt) {
   };
 
   gruntTaskUtils.registerTasks({
+    // **test**
+    //
+    // Executes only the unit testing task passed as arguments to test. example:
+    // `grunt test:identifier` will only run the identifier unit tests reporting the coverage to the console
+    test: function (testTask) {
+      grunt.task.run(['test-targets-generator', 'qunit:' + testTask]);
+    },
     "test-targets-generator" : {
       description: 'Generate the test configuration object for qunit-istambul',
       multiTask: function () {

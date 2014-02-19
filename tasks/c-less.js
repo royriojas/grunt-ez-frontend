@@ -25,6 +25,7 @@ module.exports = function(grunt) {
     path = require('path'),
     less = require('less'),
     lib = require('../lib/lib'),
+    lessCustomFunctions = require('../lib/less-user-functions'),
     url = require('url'),
     format = lib.format,
     trim = lib.trim,
@@ -156,7 +157,7 @@ module.exports = function(grunt) {
       });
 
       defaults.paths.unshift(path.dirname(src));
-      var userFunctions = defaults.userFunctions;
+      var userFunctions = lib.extend(lessCustomFunctions, defaults.userFunctions);
       var thisObj = defaults.userFunctionsThisObj;
 
       if (userFunctions) {

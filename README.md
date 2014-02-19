@@ -268,6 +268,35 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 Release History
 ---------------
 
+*   __02/18/2014 - 0.2.15__:
+      - Added single task `test` to run generated qunit tests in isolation
+      ````
+      // syntax
+      // grunt test:nameOfTask
+
+      // will only execute the tests for coalesce instead of running all the defined tasks
+      grunt test:coalesce
+
+      ````
+      - Custom user functions for less added. calc-em, calc-rem, rel-val. To use them just do:
+      `````
+      // syntax
+      //
+      // calc-rem(valueInPx[, baseFontSize]): return value in 'rems'
+      // calc-em(valueInPx[, baseFontSize]): return value in 'ems'
+      // rel-val(valueInPx[, relativeDimension]): return value relative to the relativeDimension passed in percentage
+
+      // Examples
+
+      font-size: calc-em(15px) // will output font-size: 1em (the default base font is 15px by default)
+      font-size: calc-em(12px, 16) // will output font-size: 0.75em
+
+      font-size: calc-rem(15px) // will output font-size: 1rem (the default base font is 15px by default)
+      font-size: calc-rem(12px, 16) // will output font-size: 0.75rem
+
+      width: rel-val(500, 1000) // will output width: 50%;
+
+      `````
 *   __02/16/2014 - 0.2.14__:
     - Added a task to generate `grunt-qunit-istanbul` targets on the fly. It requires you have installed grunt-qunit-instanbul from this [fork][grunt-qunit-istanbul] in order to prevent this [bug][qunit-istanbul-bug]
 
@@ -285,7 +314,10 @@ Release History
         coverage: {
           instrumentedFiles: 'temp/',
           reportFolder: 'report/', //where to store the reports. A folder with the name of the target will be created inside
-          linesThresholdPct: 85
+          linesThresholdPct: 85,
+          statementsThresholdPct: 85,
+          functionsThresholdPct: 85,
+          branchesThresholdPct: 85
         }
       },
       all: {
@@ -316,8 +348,8 @@ Release History
     - Bug fix. Banner were ignored in css outputs
 
 *   __01/10/2014 - 0.2.8__:
-    - Added generic regular expressions replacements to the gruntTaskUtil.beautifier helper object.
-    After beautification the following replacements are made:
+    - Added generic regular expressions replacements to the gruntTaskUtil.beautifier helper object. TODO: this will be moved to grunt-jsbeautifier
+      After beautification the following replacements are made:
 ```javascript
     replacements : [{
         replace : /!!\s/g, // double bang with one space after
