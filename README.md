@@ -81,9 +81,16 @@ The **ez-frontend** tasks is a [multi task][types_of_tasks], meaning that grunt 
 // project configuration
 grunt.initConfig({
   'ez-frontend': {
-    // all the options here could be overriden at a target level
+    // all the options here could be overridden at a target level
+    // or using the the specific options for a particular task
     options: {
-      
+
+      cLessOptions: {},         // options for `cLess` tasks
+      autoprefixerOptions: {},  // options for `autoprefixer` tasks
+      cssoOptions: {},          // options for `csso` tasks
+      preprocessOptions: {},    // options for `preprocess` tasks
+      uglifyOptions: {},        // options for `uglify` tasks
+
       // the banner to be added to the top of the output files. 
       // It will be processed by grunt.template.process
       // so it could use the same format as the meta.banner property.
@@ -259,14 +266,26 @@ grunt.initConfig({
 
 [types_of_tasks]: https://github.com/cowboy/grunt/blob/master/docs/types_of_tasks.md
 
-Contributing
-------------
-
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][grunt].
-
 
 Release History
 ---------------
+
+*   __02/26/2014 - 0.2.16__:
+      - Added a way to send specific options per task.
+        - `cLessOptions`: options for `cLess` tasks
+        - `autoprefixerOptions`: options for `autoprefixer` tasks
+        - `cssoOptions`: options for `csso` tasks
+        - `preprocessOptions`: options for `preprocess` tasks
+        - `uglifyOptions`: options for `uglify` tasks
+
+      - Added two helper tasks to run css-targets and js-targets
+        - **css-target**. Executes ez-frontend and cLess autoprefixer and csso for a given ez-frontend entry.
+          To use it simply run `grunt css-target:nameOfTarget' and the ez-frontend task will be executed, then the
+          tasks `cLess:nameOfTarget`, `autoprefixer:nameOfTarget` and `csso:nameOfTarget` task are executed too
+        - **js-target**. Executes `ez-frontend` and `preprocess` and `uglify` for a given `ez-frontend` entry.
+          To use it simply run `grunt js-target:nameOfTarget' and the ez-frontend task will be executed and then
+          the `preprocess:nameOfTarget` and the `uglify:nameOfTarget` will be executed.
+
 
 *   __02/18/2014 - 0.2.15__:
       - Added single task `test` to run generated qunit tests in isolation

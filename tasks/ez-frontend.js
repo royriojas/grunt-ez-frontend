@@ -3,15 +3,24 @@
 module.exports = function (grunt) {
   'use strict';
 
-  var gruntTaskUtils = require('../lib/grunt-task-utils.js')(grunt);
+  var gruntTaskUtils = require('../lib/grunt-task-utils.js')(grunt),
+    lib = require('../lib/lib.js');
 
   grunt.registerMultiTask('ez-frontend', 'Easy configuration of tasks to concatenate', function () {
     var me = this;
-    var options = me.options({
+    var options = lib.extend(true, {
       banner : '',
       bannerFile : null,
-      assetsVersion : ''
-    });
+      assetsVersion : '',
+
+      csLessOptions: {},
+      autoprefixerOptions: {},
+      cssoOptions : {
+        banner: ''
+      },
+      preprocessOptions: {},
+      uglifyOptions: {}
+    }, me.options());
 
     if (options.bannerFile) {
       // TODO: make it read the file only once adding a cache object to handle the bannerFilePaths

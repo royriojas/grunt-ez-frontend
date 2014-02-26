@@ -101,9 +101,27 @@ module.exports = function(grunt) {
 
           grunt.config.set(['ez-frontend', name], task);
         });
-
-
       }
+    },
+    // **css-target**
+    //
+    // Executes ez-frontend and cLess autoprefixer and csso for a given ez-frontend entry.
+    //
+    // To use it simply run `grunt css-target:nameOfTarget' and the ez-frontend task will be executed, then the
+    // tasks `cLess:nameOfTarget`, `autoprefixer:nameOfTarget` and `csso:nameOfTarget` task are executed too
+    "css-target": function ( targetName ) {
+      var tasks = lib.format( 'ez-frontend:{0} cLess:{0} autoprefixer:{0} csso:{0}', targetName ).split( ' ' );
+      grunt.task.run( tasks );
+    },
+    // **js-target**
+    //
+    // Executes `ez-frontend` and `preprocess` and `uglify` for a given `ez-frontend` entry.
+    //
+    // To use it simply run `grunt js-target:nameOfTarget' and the ez-frontend task will be executed and then
+    // the `preprocess:nameOfTarget` and the `uglify:nameOfTarget` will be executed.
+    "js-target": function ( targetName ) {
+      var tasks = lib.format( 'ez-frontend:{0} preprocess:{0} uglify:{0}', targetName ).split( ' ' );
+      grunt.task.run( tasks );
     }
   };
 
