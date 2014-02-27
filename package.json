@@ -1,7 +1,7 @@
 {
   "name": "grunt-ez-frontend",
   "description": "Easily configure Grunt to concatenate, minimize js files, parse less files, concatenate them with other css files and minimize them using csso and autoprefix",
-  "version": "0.2.15",
+  "version": "0.2.16",
   "homepage": "https://github.com/royriojas/grunt-ez-frontend",
   "author": {
     "name": "Roy Riojas",
