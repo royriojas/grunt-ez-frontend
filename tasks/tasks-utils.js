@@ -37,8 +37,9 @@ module.exports = function(grunt) {
           outputFolder = data.dest,
           files = gruntFile.expand(ymlFiles),
           options = me.options({
-            template : "(function ($, w) {\n  w.__i18n = (w.__i18n || {});\n\n  $.extend(w.__i18n, [[FILE_CONTENTS]]);\n\n}(jQuery, window));",
-            templateFile : null
+            template : "(function ($, w) {\n  w.__i18n = (w.__i18n || {});\n\n  $.extend(true, w.__i18n, [[FILE_CONTENTS]]);\n\n}(jQuery, window));",
+            templateFile : null,
+            ignoreKeys: ['main']
           }),
           template = options.template;
 
@@ -46,17 +47,45 @@ module.exports = function(grunt) {
           template = gruntFile.read(options.templateFile);
         }
 
+        var writeTransFile = function (obj, nameOfOutputFile) {
+          var outputFile = template.replace("[[FILE_CONTENTS]]", JSON.stringify(obj, null, 2));
+          grunt.log.writeln('Writing file: ' + nameOfOutputFile.yellow);
+          gruntFile.write(nameOfOutputFile, outputFile);
+        };
+
         files.map(function (filepath) {
           var fileName = path.basename(filepath, '.yml'),
             messages = gruntFile.readYAML(filepath); //YAML.load(filepath);
 
-          messages = messages.main;
+          //messages = messages.main;
+          var ignoredKeys = {};
+          var defaultObject = {};
+          var hasDefaultKeys = false;
 
-          var outputFile = template.replace("[[FILE_CONTENTS]]", JSON.stringify(messages, null, 2)),
-            nameOfOutputFile = outputFolder + fileName.replace('messages', 'i18n') + '.js';
+          var oFile = fileName.replace('messages', 'i18n') + '.js';
 
-          grunt.log.writeln('Writing file: ' + nameOfOutputFile.yellow);
-          gruntFile.write(nameOfOutputFile, outputFile);
+          options.ignoreKeys.forEach(function (key) {
+            defaultObject = lib.extend(true, defaultObject, messages[key]);
+            if (!hasDefaultKeys) {
+              hasDefaultKeys = !!messages[key];
+            }
+            ignoredKeys[key] = true;
+          });
+
+          if (hasDefaultKeys) {
+            var nameOfOutputFile = path.join(outputFolder, oFile);
+            writeTransFile(defaultObject, nameOfOutputFile);
+          }
+
+          Object.keys(messages).forEach(function (key) {
+            if (ignoredKeys[key]) {
+              return;
+            }
+
+            var nameOfOutputFile = path.join(outputFolder, key, oFile);
+            writeTransFile(messages[key], nameOfOutputFile);
+          });
+
         });
       }
     },
@@ -84,7 +113,10 @@ module.exports = function(grunt) {
           data = me.data || {},
           src = data.src,
           dest = data.dest,
-          cfg = grunt.config();
+          cfg = grunt.config(),
+          options = me.options({
+            cwd: null
+          });
 
         var count = 0,
           files = gruntFile.expand(src),
@@ -94,9 +126,12 @@ module.exports = function(grunt) {
           var fileName = path.basename(filepath),
             name = 'i18nTask' + count++;
 
+          var outputDest = lib.trim(options.cwd) === '' ? path.join(dest, fileName) : path.join(dest, path.relative(options.cwd, filepath));
+
+          verbose.writeln('i18n dest: ' + outputDest.yellow);
           var task =  ezFrontend[name] = {
             src : filepath,
-            dest : dest + fileName
+            dest : outputDest
           };
 
           grunt.config.set(['ez-frontend', name], task);
