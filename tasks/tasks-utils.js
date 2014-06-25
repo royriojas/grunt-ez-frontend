@@ -157,7 +157,21 @@ module.exports = function(grunt) {
     "js-target": function ( targetName ) {
       var tasks = lib.format( 'ez-frontend:{0} preprocess:{0} uglify:{0}', targetName ).split( ' ' );
       grunt.task.run( tasks );
-    }
+    },
+
+    // ** target **
+    // 
+    // Executes a target ez-frontend task for both javascript and css
+    'target': function () {
+      var arr = [].slice.call( arguments );
+      var tasks = [];
+      arr.forEach(function ( name ) {
+        var prefixer = /^css-/.test( name ) ? 'css-target:' : 'js-target:';
+        tasks.push( prefixer + name );
+      } );
+      grunt.task.run( tasks );
+    },
+
   };
 
   gruntTaskUtils.registerTasks(gruntTasks);
