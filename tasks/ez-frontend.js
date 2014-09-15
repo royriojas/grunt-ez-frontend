@@ -13,7 +13,7 @@ module.exports = function (grunt) {
       bannerFile : null,
       assetsVersion : '',
 
-      csLessOptions: {},
+      cLessOptions: {},
       autoprefixerOptions: {},
       cssoOptions : {
         banner: ''
