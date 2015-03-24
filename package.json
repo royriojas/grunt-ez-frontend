@@ -7,6 +7,18 @@
     "name": "Roy Riojas",
     "url": "http://royriojas.com/"
   },
+  "scripts": {
+    "beautify": "esbeautifier Gruntfile tasks/**/*.js lib/**/*.js",
+    "beautify-check": "esbeautifier -k Gruntfile tasks/**/*.js lib/**/*.js",
+    "eslint": "eslinter Gruntfile tasks/**/*.js lib/**/*.js",
+    "lint": "npm run beautify && npm run eslint",
+    "check": "npm run beautify-check && npm run eslint",
+    "changelog": "changelogx -f markdown -o ./changelog.md",
+    "install-hooks": "prepush install && changelogx install-hook"
+  },
+  "prepush": [
+    "npm run check"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:royriojas/grunt-ez-frontend.git"
@@ -31,11 +43,15 @@
     "cheerio": "~0.13.1"
   },
   "devDependencies": {
+    "changelogx": "^1.0.10",
+    "esbeautifier": "^2.0.3",
+    "eslinter": "^1.0.0",
     "grunt": "~0.4.2",
     "grunt-bump": "0.0.13",
-    "time-grunt": "~0.2.8",
+    "grunt-jsbeautifier": "git://github.com/royriojas/grunt-jsbeautifier",
     "matchdep": "~0.3.0",
-    "grunt-jsbeautifier": "git://github.com/royriojas/grunt-jsbeautifier"
+    "prepush": "^2.0.3",
+    "time-grunt": "~0.2.8"
   },
   "keywords": [
     "less",

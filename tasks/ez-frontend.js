@@ -1,30 +1,30 @@
 
 
-module.exports = function (grunt) {
+module.exports = function ( grunt ) {
   'use strict';
 
-  var gruntTaskUtils = require('../lib/grunt-task-utils.js')(grunt),
-    lib = require('../lib/lib.js');
+  var gruntTaskUtils = require( '../lib/grunt-task-utils.js' )( grunt );
+  var lib = require( '../lib/lib.js' );
 
-  grunt.registerMultiTask('ez-frontend', 'Easy configuration of tasks to concatenate', function () {
+  grunt.registerMultiTask( 'ez-frontend', 'Easy configuration of tasks to concatenate', function () {
     var me = this;
-    var options = lib.extend(true, {
-      banner : '',
-      bannerFile : null,
-      assetsVersion : '',
+    var options = lib.extend( true, {
+      banner: '',
+      bannerFile: null,
+      assetsVersion: '',
 
       cLessOptions: {},
       autoprefixerOptions: {},
-      cssoOptions : {
+      cssoOptions: {
         banner: ''
       },
       preprocessOptions: {},
       uglifyOptions: {}
-    }, me.options());
+    }, me.options() );
 
-    if (options.bannerFile) {
+    if ( options.bannerFile ) {
       // TODO: make it read the file only once adding a cache object to handle the bannerFilePaths
-      options.banner = grunt.file.read(options.bannerFile);
+      options.banner = grunt.file.read( options.bannerFile );
     }
 
     //options.banner = grunt.template.process(options.banner);
@@ -35,14 +35,14 @@ module.exports = function (grunt) {
     var data = me.data;
 
     var group = {
-      name : me.target,
-      type : data.type,
-      src : data.src,
-      dest : data.dest,
-      minDest : data.minDest,
-      options : options
+      name: me.target,
+      type: data.type,
+      src: data.src,
+      dest: data.dest,
+      minDest: data.minDest,
+      options: options
     };
 
-    gruntTaskUtils.createGroupTask(cfg, group);
-  });
+    gruntTaskUtils.createGroupTask( cfg, group );
+  } );
 };
