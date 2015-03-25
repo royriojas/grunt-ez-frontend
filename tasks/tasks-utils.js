@@ -156,7 +156,7 @@ module.exports = function ( grunt ) {
         'autoprefixer'
       ];
 
-      if ( !grunt.option( 'ezfe-no-min' ) ) {
+      if ( grunt.option( 'build-number' ) !== 'dev' || grunt.option( 'bundle-min' ) ) {
         _tasks.push( 'csso' );
       }
 
@@ -176,7 +176,7 @@ module.exports = function ( grunt ) {
         'preprocess'
       ];
 
-      if ( !grunt.option( 'ezfe-no-min' ) ) {
+      if ( grunt.option( 'build-number' ) !== 'dev' || grunt.option( 'bundle-min' ) ) {
         _tasks.push( 'uglify' );
       }
 

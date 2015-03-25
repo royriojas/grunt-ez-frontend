@@ -43,8 +43,9 @@
     "cheerio": "~0.13.1"
   },
   "devDependencies": {
-    "changelogx": "^1.0.10",
-    "esbeautifier": "^2.0.3",
+    "bumpery": "^1.0.4",
+    "changelogx": "^1.0.11",
+    "esbeautifier": "^2.0.4",
     "eslinter": "^1.0.0",
     "grunt": "~0.4.2",
     "grunt-bump": "0.0.13",
