@@ -160,7 +160,9 @@ module.exports = function ( grunt ) {
         _tasks.push( 'csso' );
       }
 
-      var tasks = lib.format( _tasks.join( ':{0} ' ), targetName ).split( ' ' );
+      var tasks = lib.format( _tasks.map( function ( t ) {
+        return t + ':{0}';
+      } ).join( ' ' ), targetName ).split( ' ' );
       grunt.task.run( tasks );
     },
     // **js-target**
@@ -180,7 +182,9 @@ module.exports = function ( grunt ) {
         _tasks.push( 'uglify' );
       }
 
-      var tasks = lib.format( _tasks.join( ':{0} ' ), targetName ).split( ' ' );
+      var tasks = lib.format( _tasks.map( function ( t ) {
+        return t + ':{0}';
+      } ).join( ' ' ), targetName ).split( ' ' );
       grunt.task.run( tasks );
     },
 
