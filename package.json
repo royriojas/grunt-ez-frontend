@@ -40,7 +40,7 @@
   "dependencies": {
     "less": "~2.1.0",
     "dot": "~1.0.2",
-    "request": "~2.66.0",
+    "request": "~2.84.0",
     "cheerio": "~0.13.1"
   },
   "devDependencies": {
