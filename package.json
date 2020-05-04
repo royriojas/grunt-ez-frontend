@@ -15,7 +15,9 @@
     "check": "npm run beautify-check && npm run eslint",
     "changelog": "changelogx -f markdown -o ./changelog.md",
     "install-hooks": "prepush install && changelogx install-hook",
-    "bump": "bumpery --verify='npm run check'"
+    "bump": "bumpery --verify='npm run check'",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "prepush": [
     "npm run check"
@@ -41,7 +43,8 @@
     "less": "~2.1.0",
     "dot": "~1.0.2",
     "request": "~2.66.0",
-    "cheerio": "~0.13.1"
+    "cheerio": "~0.13.1",
+    "snyk": "^1.317.0"
   },
   "devDependencies": {
     "bumpery": "^1.0.4",
@@ -67,5 +70,6 @@
     "autoprefix",
     "grunt",
     "gruntplugin"
-  ]
+  ],
+  "snyk": true
 }
